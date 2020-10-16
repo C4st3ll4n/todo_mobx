@@ -14,26 +14,33 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginStore _loginStore = LoginStore();
-  
+  ReactionDisposer reactionDisposer;
   @override
   void didChangeDependencies() {
     
     super.didChangeDependencies();
     
+      //FORMA 1
+      /*
     autorun((r){
       print("Tem gente ? ${_loginStore.isLogged}");
       
-      //FORMA 1
       
-      /*if(_loginStore.isLogged){
+      if(_loginStore.isLogged){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>ListScreen()));
-      }*/
-      
-      reaction((_)=>_loginStore.isLogged, (logged){
-        logged?Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>ListScreen())):null;
-      });
-      
+      }
     });
+      */
+
+    reactionDisposer = reaction((_)=>_loginStore.isLogged, (logged){
+      logged?Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>ListScreen())):null;
+    });
+  }
+  
+  @override
+  void dispose() {
+    reactionDisposer();
+    super.dispose();
   }
 
   @override
