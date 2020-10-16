@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
+import 'package:todomobx/store/todo_store.dart';
 
 part 'list_store.g.dart';
 
@@ -7,7 +7,7 @@ class ListStore = _ListStore with _$ListStore;
 
 abstract class _ListStore with Store {
 	
-	ObservableList<String> todoList = ObservableList<String>();
+	ObservableList<TodoStore> todoList = ObservableList<TodoStore>();
 	
 	@computed
 	int get listSize => todoList.length??0;
@@ -43,8 +43,11 @@ abstract class _ListStore with Store {
 	Future<void> addTodo() async{
 		loading=true;
 		await Future.delayed(Duration(seconds: 2));
-		todoList.add(_newTodo);
-		print(todoList);
+		todoList.insert(0,TodoStore(_newTodo));
+		todoList.sort((t1,t2){
+			return t1.done?1:0;
+		});
+		_newTodo = "";
 		loading=false;
 	}
 	

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:todomobx/store/list_store.dart';
+import 'package:todomobx/store/todo_store.dart';
 import 'package:todomobx/widgets/custom_icon_button.dart';
 import 'package:todomobx/widgets/custom_text_field.dart';
 
@@ -96,12 +97,15 @@ class _ListScreenState extends State<ListScreen> {
 												  	child: ListView.separated(
 												  		itemCount: _listStore.listSize,
 												  		itemBuilder: (_, index) {
-												  			String item = _listStore.todoList.elementAt(index);
-												  			return ListTile(
-												  				title: Text(
-												  					'$item',
-												  				),
-												  				onTap:_listStore.onAddTap,
+												  			TodoStore item = _listStore.todoList.elementAt(index);
+												  			return Observer(
+												  			  builder:(_)=> ListTile(
+												  			  	title: Text(
+												  			  		'${item.tiitle}',style: item.done?TextStyle(color:Colors.grey,decoration: TextDecoration.lineThrough):null,
+												  			  	),
+												  			  	
+												  			  	onTap:item.doneToggle,
+												  			  ),
 												  			);
 												  		},
 												  		separatorBuilder: (_, __) {
