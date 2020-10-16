@@ -36,6 +36,13 @@ mixin _$LoginStore on _LoginStore, Store {
       (_$loginPressedComputed ??= Computed<Function>(() => super.loginPressed,
               name: '_LoginStore.loginPressed'))
           .value;
+  Computed<Function> _$logoutPressedComputed;
+
+  @override
+  Function get logoutPressed =>
+      (_$logoutPressedComputed ??= Computed<Function>(() => super.logoutPressed,
+              name: '_LoginStore.logoutPressed'))
+          .value;
 
   final _$isLoggedAtom = Atom(name: '_LoginStore.isLogged');
 
@@ -119,6 +126,13 @@ mixin _$LoginStore on _LoginStore, Store {
     return _$loginAsyncAction.run(() => super.login());
   }
 
+  final _$logoutAsyncAction = AsyncAction('_LoginStore.logout');
+
+  @override
+  Future<void> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
 
   @override
@@ -165,7 +179,8 @@ visiblePassword: ${visiblePassword},
 isEmailValid: ${isEmailValid},
 isPasswordValid: ${isPasswordValid},
 isValid: ${isValid},
-loginPressed: ${loginPressed}
+loginPressed: ${loginPressed},
+logoutPressed: ${logoutPressed}
     ''';
   }
 }

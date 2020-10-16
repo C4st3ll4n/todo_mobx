@@ -22,13 +22,6 @@ mixin _$ListStore on _ListStore, Store {
           () => super.isTextFieldValid,
           name: '_ListStore.isTextFieldValid'))
       .value;
-  Computed<Function> _$logoutPressesComputed;
-
-  @override
-  Function get logoutPresses =>
-      (_$logoutPressesComputed ??= Computed<Function>(() => super.logoutPresses,
-              name: '_ListStore.logoutPresses'))
-          .value;
   Computed<Function> _$onAddTapComputed;
 
   @override
@@ -49,43 +42,6 @@ mixin _$ListStore on _ListStore, Store {
     _$_newTodoAtom.reportWrite(value, super._newTodo, () {
       super._newTodo = value;
     });
-  }
-
-  final _$loadingAtom = Atom(name: '_ListStore.loading');
-
-  @override
-  bool get loading {
-    _$loadingAtom.reportRead();
-    return super.loading;
-  }
-
-  @override
-  set loading(bool value) {
-    _$loadingAtom.reportWrite(value, super.loading, () {
-      super.loading = value;
-    });
-  }
-
-  final _$hasUserAtom = Atom(name: '_ListStore.hasUser');
-
-  @override
-  bool get hasUser {
-    _$hasUserAtom.reportRead();
-    return super.hasUser;
-  }
-
-  @override
-  set hasUser(bool value) {
-    _$hasUserAtom.reportWrite(value, super.hasUser, () {
-      super.hasUser = value;
-    });
-  }
-
-  final _$logoutAsyncAction = AsyncAction('_ListStore.logout');
-
-  @override
-  Future<void> logout() {
-    return _$logoutAsyncAction.run(() => super.logout());
   }
 
   final _$addTodoAsyncAction = AsyncAction('_ListStore.addTodo');
@@ -111,11 +67,8 @@ mixin _$ListStore on _ListStore, Store {
   @override
   String toString() {
     return '''
-loading: ${loading},
-hasUser: ${hasUser},
 listSize: ${listSize},
 isTextFieldValid: ${isTextFieldValid},
-logoutPresses: ${logoutPresses},
 onAddTap: ${onAddTap}
     ''';
   }

@@ -7,10 +7,11 @@ class LoginStore = _LoginStore with _$LoginStore;
 abstract class _LoginStore with Store {
   _LoginStore() {
     autorun((r) {
-      print("e:$email");
-      print(password);
-      print(isLoading);
-      print(visiblePassword);
+      print("email:$email");
+      print("pass:$password");
+      print("loading:$isLoading");
+      print("visibility:$visiblePassword");
+      print("hasUser:$visiblePassword");
     });
   }
   
@@ -62,6 +63,23 @@ abstract class _LoginStore with Store {
   
   @computed
   Function get loginPressed => (isValid &&  !isLoading)? login : null;
+
+
+
+  @action
+  Future<void> logout() async {
+    isLoading = true;
+    await Future.delayed(Duration(seconds: 2));
+    isLoading = !true;
+  
+    isLogged = false;
+    email = "";
+    password="";
+  }
+
+  @computed
+  Function get logoutPressed => isLogged? logout : null;
+  
   
   
 }

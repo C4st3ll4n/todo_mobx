@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:todomobx/store/login_store.dart';
 import 'package:todomobx/widgets/custom_icon_button.dart';
 import 'package:todomobx/widgets/custom_text_field.dart';
@@ -13,12 +14,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  LoginStore _loginStore = LoginStore();
+  LoginStore _loginStore;// = LoginStore();
   ReactionDisposer reactionDisposer;
   @override
   void didChangeDependencies() {
-    
     super.didChangeDependencies();
+    
+    _loginStore = Provider.of<LoginStore>(context);
     
       //FORMA 1
       /*
@@ -31,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     });
       */
-
+    //Forma 2
     reactionDisposer = reaction((_)=>_loginStore.isLogged, (logged){
       logged?Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>ListScreen())):null;
     });
