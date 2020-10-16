@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:todomobx/store/list_store.dart';
 import 'package:todomobx/widgets/custom_icon_button.dart';
@@ -57,10 +58,12 @@ class _ListScreenState extends State<ListScreen> {
 													fontSize: 32
 											),
 										),
-										IconButton(
-											icon: Icon(Icons.exit_to_app),
-											color: Colors.white,
-											onPressed: _listStore.logout,
+										Observer(
+										  builder:(_)=> IconButton(
+										  	icon: _listStore.loading?CircularProgressIndicator():Icon(Icons.exit_to_app),
+										  	color: Colors.white,
+										  	onPressed: _listStore.logout,
+										  ),
 										),
 									],
 								),
@@ -75,38 +78,37 @@ class _ListScreenState extends State<ListScreen> {
 										padding: const EdgeInsets.all(16),
 										child: Column(
 											children: <Widget>[
-												CustomTextField(
+												Observer(
+												  builder:(_)=> CustomTextField(
                           enabled: !_listStore.loading,
-													hint: 'Tarefa',
-													onChanged: (todo) {
-													
-													},
-													suffix: CustomIconButton(
-														radius: 32,
-														iconData: Icons.add,
-														onTap: () {
-														
-														},
-													),
+												  	hint: 'Tarefa',
+												  	onChanged: _listStore.updateTodo,
+												  	suffix: CustomIconButton(
+												  		radius: 32,
+												  		iconData: _listStore.isTextFieldValid?Icons.add:Icons.short_text,
+												  		onTap:_listStore.onAddTap,
+												  	),
+												  ),
 												),
 												const SizedBox(height: 8,),
-												Expanded(
-													child: ListView.separated(
-														itemCount: 10,
-														itemBuilder: (_, index) {
-															return ListTile(
-																title: Text(
-																	'Item $index',
-																),
-																onTap: !_listStore.loading?null:() {
-																
-																},
-															);
-														},
-														separatorBuilder: (_, __) {
-															return Divider();
-														},
-													),
+												Observer(
+												  builder:(_)=> Expanded(
+												  	child: ListView.separated(
+												  		itemCount: _listStore.listSize,
+												  		itemBuilder: (_, index) {
+												  			String item = _listStore.todoList.elementAt(index);
+												  			return ListTile(
+												  				title: Text(
+												  					'$item',
+												  				),
+												  				onTap:_listStore.onAddTap,
+												  			);
+												  		},
+												  		separatorBuilder: (_, __) {
+												  			return Divider();
+												  		},
+												  	),
+												  ),
 												),
 											],
 										),

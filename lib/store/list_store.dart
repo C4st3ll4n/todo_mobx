@@ -7,8 +7,16 @@ class ListStore = _ListStore with _$ListStore;
 
 abstract class _ListStore with Store {
 	
+	ObservableList<String> todoList = ObservableList<String>();
+	
+	@computed
+	int get listSize => todoList.length??0;
+	
 	@observable
 	String _newTodo = "";
+	
+	@computed
+	bool get isTextFieldValid => _newTodo.isNotEmpty && _newTodo.length>=3;
 	
 	@observable
 	bool loading = false;
@@ -30,6 +38,19 @@ abstract class _ListStore with Store {
 	@computed
 	 Function get logoutPresses => loading?logout:null;
 	
-	ObserverList todoList;
+	
+	@action
+	Future<void> addTodo() async{
+		loading=true;
+		await Future.delayed(Duration(seconds: 2));
+		todoList.add(_newTodo);
+		print(todoList);
+		loading=false;
+	}
+	
+	
+	@computed
+	Function get onAddTap => isTextFieldValid&&!loading?addTodo:null;
+	
 	
 }

@@ -9,6 +9,19 @@ part of 'list_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ListStore on _ListStore, Store {
+  Computed<int> _$listSizeComputed;
+
+  @override
+  int get listSize => (_$listSizeComputed ??=
+          Computed<int>(() => super.listSize, name: '_ListStore.listSize'))
+      .value;
+  Computed<bool> _$isTextFieldValidComputed;
+
+  @override
+  bool get isTextFieldValid => (_$isTextFieldValidComputed ??= Computed<bool>(
+          () => super.isTextFieldValid,
+          name: '_ListStore.isTextFieldValid'))
+      .value;
   Computed<Function> _$logoutPressesComputed;
 
   @override
@@ -16,6 +29,12 @@ mixin _$ListStore on _ListStore, Store {
       (_$logoutPressesComputed ??= Computed<Function>(() => super.logoutPresses,
               name: '_ListStore.logoutPresses'))
           .value;
+  Computed<Function> _$onAddTapComputed;
+
+  @override
+  Function get onAddTap => (_$onAddTapComputed ??=
+          Computed<Function>(() => super.onAddTap, name: '_ListStore.onAddTap'))
+      .value;
 
   final _$_newTodoAtom = Atom(name: '_ListStore._newTodo');
 
@@ -69,6 +88,13 @@ mixin _$ListStore on _ListStore, Store {
     return _$logoutAsyncAction.run(() => super.logout());
   }
 
+  final _$addTodoAsyncAction = AsyncAction('_ListStore.addTodo');
+
+  @override
+  Future<void> addTodo() {
+    return _$addTodoAsyncAction.run(() => super.addTodo());
+  }
+
   final _$_ListStoreActionController = ActionController(name: '_ListStore');
 
   @override
@@ -87,7 +113,10 @@ mixin _$ListStore on _ListStore, Store {
     return '''
 loading: ${loading},
 hasUser: ${hasUser},
-logoutPresses: ${logoutPresses}
+listSize: ${listSize},
+isTextFieldValid: ${isTextFieldValid},
+logoutPresses: ${logoutPresses},
+onAddTap: ${onAddTap}
     ''';
   }
 }
